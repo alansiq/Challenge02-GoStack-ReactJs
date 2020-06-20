@@ -28,13 +28,14 @@ useEffect(()=>{
 
   async function handleRemoveRepository(id) {
      
-     await api.delete(`/repositories/${id}`).then(response => {
+    const repoIndex = repositories.findIndex(repo => repo.id === id);
+    const updatedList = [...repositories];
 
-      api.get('repositories').then(response => {
-        setRepositories(response.data);
-      })
+    updatedList.splice(repoIndex, 1);
+    setRepositories(updatedList);
 
-     })
+
+     await api.delete(`/repositories/${id}`)
 
 
      
@@ -50,8 +51,9 @@ useEffect(()=>{
         </li>
 
       ))}
-      <button onClick={handleAddRepository}>Adicionar</button>
+      
       </ul>
+      <button onClick={handleAddRepository}>Adicionar</button>
 
     </div>
   );
